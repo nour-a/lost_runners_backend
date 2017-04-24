@@ -13,5 +13,10 @@
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "react": "^15.5.4"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-plugin-react": "^6.10.3",
+    "husky": "^0.13.3"
   }
 }
