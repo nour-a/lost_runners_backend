@@ -1,0 +1,17 @@
+{
+  "name": "lost_runners_backend",
+  "version": "1.0.0",
+  "description": "app_back_end",
+  "main": "index.js",
+  "repository": "https://github.com/nour-a/lost_runners_backend.git",
+  "author": "curtis johnson <curtisianjohnson@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "react": "^15.5.4"
+  }
+}
