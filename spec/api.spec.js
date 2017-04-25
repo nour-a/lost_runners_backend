@@ -7,15 +7,51 @@ const PORT = config.PORT[process.env.NODE_ENV];
 const ROOT = `http://localhost:${PORT}/api`;
 
 require('../server');
-describe ('GET /', () => {
-  it ('returns the status ok', (done) => {
-    request(ROOT)
-      .get('/')
-      .end((error, response) => {
-        if (error) throw error;
-        expect(response.status).to.equal(200);
-        expect(response.body.status).to.equal('OK');
-        done();
-      });
-  });
+
+
+describe('GET /', () => {
+    it('returns the status ok', (done) => {
+        request(ROOT)
+            .get('/')
+            .end((error, response) => {
+                if (error) throw error;
+                expect(response.status).to.equal(200);
+                expect(response.body.status).to.equal('OK');
+                done();
+            });
+    });
+});
+
+describe('POST /runs/:user_id/start', () => {
+    it('adds a new run to the runs table and adds info to messages and recipients tables', (done) => {
+        request(ROOT)
+            .post('/runs/1/start')
+            .type('json')
+            .send({
+                'duration': '40',
+                'destination': 'market street',
+                'phone_number': '1234456789',
+                'name': 'gigi',
+                'body': 'HI I AM GOING TO MY RUN on market st'
+            })
+            .end((error, response) => {
+                console.log(response.body);
+                if (error) throw error;
+                expect(response.status).to.equal(201);
+                expect(response.body).to.be.an('object');
+                expect(response.body.id).to.be.a('number');
+                done();
+            });
+    });
+   /* it('returns a 422 error if the area_id does not exist', (done) => {
+        request(ROOT)
+            .get('/runs/1000/start')
+            .end((error, response) => {
+                if (error) throw error;
+                expect(response.status).to.equal(422);
+                //expect(response.body.message).to.equal('Area id does not exist');
+                done();
+            });
+    });*/
+
 });
