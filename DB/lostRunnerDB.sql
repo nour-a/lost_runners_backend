@@ -13,14 +13,14 @@ INSERT INTO users (username)
   CREATE TABLE runs (
   id SERIAL PRIMARY KEY,
   start_time TIMESTAMP DEFAULT NOW(),
-  duration  TIMESTAMP NOT NULL,
+  duration bigint NOT NULL,
   destination VARCHAR(50),
   user_id INTEGER,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 INSERT INTO runs (duration,destination,user_id)
-  VALUES ('1970-01-01 00:00:01','lloyd street',1), ('1970-01-01 00:00:01','first street',2), ('1970-01-01 00:00:01','oldham street',3);
+  VALUES (1493049644,'lloyd street',1), (1493049644,'first street',2), (1493049644,'oldham street',3);
 
 CREATE TABLE coordinates (
     id  SERIAL PRIMARY KEY,
@@ -34,10 +34,33 @@ CREATE TABLE coordinates (
 INSERT INTO coordinates (run_id,latitude,longitude)
   VALUES (1,53.4808,2.2426),(2,53.4809,2.2427),(3,53.4800,2.2428);
 
+
+  CREATE TABLE recipients (
+    id SERIAL PRIMARY KEY,
+    run_id INTEGER,
+    FOREIGN KEY (run_id) REFERENCES runs(id),
+    phone_number bigint,
+    name VARCHAR(30)
+  );
+  INSERT INTO recipients (run_id,phone_number,name)
+  VALUES( 1,747445656879,'sam');
+
+  CREATE TABLE messages (
+     id SERIAL PRIMARY KEY,
+     body VARCHAR(255),
+     recipient_id INTEGER,
+     FOREIGN KEY (recipient_id) REFERENCES recipients(id)
+  );
+  INSERT INTO messages (body, recipient_id)
+  VALUES('Hi this is my location',1);
+
+
+
 SELECT * FROM users;
 SELECT * FROM runs;
 SELECT * FROM coordinates;
-
+SELECT * FROM recipients;
+SELECT * FROM messages;
 
 
 
