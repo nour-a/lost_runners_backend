@@ -2,29 +2,9 @@ const bluebird = require('bluebird');
 const pgp = require('pg-promise')({ promiseLib: bluebird });
 const dbCredentials = require('../config').DB[process.env.NODE_ENV];
 const db = pgp(dbCredentials);
+const normaliseData = require('../lib/helper');
 
-function selectAllRuns(req, res) {
-    db.query(`SELECT runs.id,
-  runs.duration, 
-  runs.destination, 
-  runs.start_time, 
-  users.username, 
-  recipients.name 
-  FROM runs 
-  JOIN users 
-  ON runs.user_id = users.id
-  JOIN recipients 
-  ON recipients.run_id = runs.id`)
-        .then(data => {
-            res.status(200).json({
-                run: data
-            });
-        })
-        .catch(error => {
-            console.log(error);
-        });
-}
-
+// post request returning run ID
 function runStart(req, res) {
     let data = {};
     db.task(t => {
@@ -59,10 +39,13 @@ function runStart(req, res) {
         });
 }
 
+// Run controller returning all run IDs
 function selectRunsById(req, res) {
     db.query(`SELECT * FROM runs WHERE user_id = ${req.params.user_id}`)
         .then(data => {
-            res.status(200).send({ data });
+            res.status(200).send({ 
+                run: normaliseData(data) 
+            });
         })
         .catch(error => {
             console.log(error);
@@ -70,7 +53,6 @@ function selectRunsById(req, res) {
 }
 
 module.exports = {
-    selectAllRuns,
     runStart,
     selectRunsById
 };
