@@ -64,7 +64,7 @@ function runStart(req, res) {
 function selectRunsById(req, res) {
     db.query(`SELECT * FROM runs WHERE user_id = ${req.params.user_id}`)
         .then(data => {
-            res.status(200).send({ data });
+            res.status(200).send({ runs: normaliseData(data) });
         })
         .catch(error => {
             console.log(error);
