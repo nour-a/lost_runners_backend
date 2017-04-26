@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const {selectRunsById, selectAllRuns, runStart} = require('../controllers/run');
+const { selectRunsById, runStart } = require('../controllers/run');
+const { locationsUpdate } = require('../controllers/locationsReceiver');
 
 router.route('/')
     .get((req, res) => {
@@ -10,8 +11,10 @@ router.route('/runs/:user_id')
     .get(selectRunsById);
 
 router.route('/runs/:user_id/start')
-    .get(selectAllRuns)
     .post(runStart);
+
+router.route('/runs/:user_id/start/:run_id')
+    .post(locationsUpdate);
 
 
 module.exports = router;
