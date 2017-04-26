@@ -2,7 +2,6 @@ const bluebird = require('bluebird');
 const pgp = require('pg-promise')({ promiseLib: bluebird });
 const dbCredentials = require('../config').DB[process.env.NODE_ENV];
 const db = pgp(dbCredentials);
-const { normaliseData } = require('../lib/helper');
 
 function selectAllRuns(req, res) {
     db.query(`SELECT runs.id,
@@ -29,9 +28,9 @@ function selectAllRuns(req, res) {
 function runStart(req, res) {
     let data = {};
     db.task(t => {
-        return t.one(`SELECT * FROM users WHERE id = ${req.params.user_id}`)
+        return t.one('SELECT * FROM users WHERE id = $1', [req.params.user_id])
             .then(users => {
-               if (!users.length) return Promise.reject({ code: 200, message: 'user id does not exist' });
+               if (!users.id) return;
                return users;
             })
             .then(user => {
@@ -50,13 +49,12 @@ function runStart(req, res) {
     })
         .then(() => {
             res.status(201).send({
-                id: normaliseData(data)
+                id: data
             });
         })
         .catch(error => {
-            console.log('*****', error);
-            if (error.code === 422) {
-                res.status(422).send({status: 'User ID has not been found'});
+            if (error.message === 'No data returned from the query.') {
+                res.status(422).send({status: 'No User Id found'});
             }
         });
 }
