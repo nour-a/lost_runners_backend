@@ -13,13 +13,32 @@ describe('GET /', () => {
         request(ROOT)
             .get('/')
             .end((error, response) => {
-                if (error) throw error;
                 expect(response.status).to.equal(200);
                 expect(response.body.status).to.equal('OK');
                 done();
             });
     });
+    it('handles incorrect roots', (done) => {
+        request(ROOT)
+            .get('/incorrectRoot')
+            .end((error, response) => {
+                expect(response.status).to.equal(404);
+                done();
+            });
+    });
 });
+
+// describe('GET /runs/:id', () => {
+//     it('returns a status 200 OK', (done) => {
+//         request(ROOT)
+//             .get('/runs/1')
+//             .end((error, response) => {
+//                 expect(response.status).to.equal(200);
+//                 expect(response.body.status).to.equal('OK');
+//                 done();
+//             });
+//     });
+// });
 
 describe('POST /runs/:user_id/start', () => {
     it('adds a new run to the runs table and adds info to messages and recipients tables', (done) => {
@@ -34,8 +53,6 @@ describe('POST /runs/:user_id/start', () => {
                 'body': 'HI I AM GOING TO MY RUN on market st'
             })
             .end((error, response) => {
-                console.log(response.body);
-                if (error) throw error;
                 expect(response.status).to.equal(201);
                 expect(response.body).to.be.an('object');
                 expect(response.body.id).to.be.a('number');

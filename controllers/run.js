@@ -16,9 +16,9 @@ function selectAllRuns(req, res) {
   ON runs.user_id = users.id
   JOIN recipients 
   ON recipients.run_id = runs.id`)
-        .then(rows => {
+        .then(data => {
             res.status(200).json({
-                run: rows
+                run: data
             });
         })
         .catch(error => {
@@ -30,9 +30,9 @@ function runStart(req, res) {
     let data = {};
     db.task(t => {
         return t.one(`SELECT * FROM users WHERE id = ${req.params.user_id}`)
-            .then(rows => {
-               if (!rows.length) return Promise.reject({ code: 200, message: 'user id does not exist' });
-               return rows;
+            .then(users => {
+               if (!users.length) return Promise.reject({ code: 200, message: 'user id does not exist' });
+               return users;
             })
             .then(user => {
                 return t.one('INSERT INTO runs(duration, destination, user_id) VALUES ($1, $2, $3) returning id',
@@ -54,9 +54,9 @@ function runStart(req, res) {
             });
         })
         .catch(error => {
-            console.log('************' + error);
+            console.log('*****', error);
             if (error.code === 422) {
-                res.status(422).send('user_id has not been found');
+                res.status(422).send({status: 'User ID has not been found'});
             }
         });
 }
@@ -69,7 +69,6 @@ function selectRunsById(req, res) {
         .catch(error => {
             console.log(error);
         });
-
 }
 
 module.exports = {
