@@ -9,6 +9,13 @@ const apiRoutes = require('./routes/api');
 
 app.use(bodyParser.json());
 
+const myLogger = function (req, res, next) {
+  console.log('LOGGED');
+  next();
+};
+
+app.use(myLogger);
+
 app.use('/api', apiRoutes);
 
 app.listen (PORT, () => {
