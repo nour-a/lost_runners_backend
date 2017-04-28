@@ -17,3 +17,12 @@ describe('GET /users', () => {
             });
     });
 });
+
+describe('GET /registration', () => {
+    it('inserts a new user to the database', () => {
+
+    });
+    it('checks database for existing users and throws an error', () => {
+
+    });
+});

@@ -4,13 +4,14 @@ const dbCredentials = require('../config').DB[process.env.NODE_ENV];
 const db = pgp(dbCredentials);
 const { normaliseData, sortByUsername } = require('../lib/helper');
 
+// Check to see if a user already exists, if not, then create a new user
 function userRegistration (req, res, next) {
     db.task(t => {
         return t.any('SELECT DISTINCT username FROM users WHERE username = $1', [req.body.username])
             .then((users) => {
                  users = sortByUsername(users);
                     if (users.hasOwnProperty(req.body.username)) {
-                        throw {code: 422, status: 'USERNAME EXISTS!'};
+                        throw {code: 422, message: 'USERNAME EXISTS!'};
                     } return;
             })
             .then(() => {
@@ -19,7 +20,7 @@ function userRegistration (req, res, next) {
             })
             .then((user) => {
                 res.status(201).send({
-                    user_id: user.id
+                    user_id: user.id,
                 });
             })
             .catch(error => {

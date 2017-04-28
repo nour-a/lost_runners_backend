@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 
 const myLogger = function (req, res, next) {
   console.log('LOGGED');
+  console.log(req.body);
   next();
 };
 
@@ -23,7 +24,6 @@ app.listen (PORT, () => {
 });
 
 app.use((error, req, res, next) => {
-    console.log(error);
     if (error.code === 404) {
         return res.status(404).send({error: error.message});
     }
