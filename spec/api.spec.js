@@ -76,3 +76,28 @@ describe('POST /runs/:user_id/start', () => {
             });
     });
 });
+
+describe(' DELETE/runs/:user_id/end/:run_id', () => {
+    it('delete the run and all the info related to this run from all the tables', (done) => {
+        request(ROOT)
+            .delete('/runs/1/end/1')
+            .type('json')
+            .end((error, response) => {
+                expect(response.status).to.equal(204);
+                done();
+            });
+    });
+
+});
+
+
+describe(' DELETE /runs/:user_id/end/:run_id', () => {
+    it('delete /runs/2/end/90999 will return 404', (done) => {
+        request(ROOT)
+            .delete('/runs/2/end/90999')
+            .end((error, response) => {
+                expect(response.status).to.equal(404);
+                done();
+            });
+    });
+});
