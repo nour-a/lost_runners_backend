@@ -21,3 +21,19 @@ app.use('/api', apiRoutes);
 app.listen (PORT, () => {
     console.log(`Listening on port: ${PORT}...`);
 });
+
+app.use((error, req, res, next) => {
+    console.log(error);
+    if (error.code === 404) {
+        return res.status(404).send({error: error.message});
+    }
+    if (error.code === 422) {
+        return res.status(422).send({error: error.message});
+    }
+    next(error);
+});
+
+app.use((error, req, res, next) => {
+    res.status(500).send({error: error.message});
+    next();
+});
