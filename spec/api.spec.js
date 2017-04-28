@@ -99,5 +99,6 @@ describe(' DELETE /runs/:user_id/end/:run_id', () => {
                 expect(response.status).to.equal(404);
                 done();
             });
+
     });
 });

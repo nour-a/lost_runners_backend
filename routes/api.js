@@ -9,6 +9,7 @@ router.route('/')
 
 router.route('/runs/:user_id')
     .get(selectRunsById);
+
 router.route('/runs')
     .get(getRuns);
 
@@ -21,6 +22,7 @@ router.route('/runs/:user_id/start')
 router.route('/runs/:user_id/start/:run_id')
     .get(getRunsByRunId)
     .post(locationsUpdate);
+
 router.route('/runs/:user_id/end/:run_id')
     .delete(runEnd);
 
