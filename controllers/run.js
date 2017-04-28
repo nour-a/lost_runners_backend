@@ -4,6 +4,7 @@ const dbCredentials = require('../config').DB[process.env.NODE_ENV];
 const db = pgp(dbCredentials);
 const { normaliseData } = require('../lib/helper');
 
+
 // post request returning run ID
 function runStart(req, res) {
     let data = {};
@@ -46,6 +47,7 @@ function selectRunsById (req, res) {
             res.status(200).send({ 
                 runs: normaliseData(data) 
             });
+
         })
         .catch(error => {
             console.log(error);
