@@ -12,8 +12,6 @@ VALUES
   ('Curtis'),
   ('Clara'),
   ('Nour');
-
-
 CREATE TABLE runs
 (
   id SERIAL PRIMARY KEY,
@@ -29,8 +27,6 @@ VALUES
   (1493049644, 'lloyd street', 1),
   (1493049644, 'first street', 2),
   (1493049644, 'oldham street', 3);
-
-
 CREATE TABLE coordinates
 (
   id SERIAL PRIMARY KEY,
@@ -40,15 +36,12 @@ CREATE TABLE coordinates
   longitude FLOAT,
   FOREIGN KEY (run_id) REFERENCES runs (id) ON DELETE CASCADE
 );
-
 INSERT INTO coordinates
   (run_id,latitude,longitude)
 VALUES
   (1, 53.4808, 2.2426),
   (2, 53.4809, 2.2427),
   (3, 53.4800, 2.2428);
-
-
 CREATE TABLE recipients
 (
   id SERIAL PRIMARY KEY,
@@ -57,11 +50,9 @@ CREATE TABLE recipients
   name VARCHAR(30),
   FOREIGN KEY (run_id) REFERENCES runs (id) ON DELETE CASCADE
 );
-
 INSERT INTO recipients
   (run_id,phone_number,name)
 VALUES( 1, 747445656879, 'sam'),( 2, 747445600879, 'joudy');
-
 CREATE TABLE messages
 (
   id SERIAL PRIMARY KEY,

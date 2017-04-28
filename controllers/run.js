@@ -4,14 +4,15 @@ const dbCredentials = require('../config').DB[process.env.NODE_ENV];
 const db = pgp(dbCredentials);
 const normaliseData = require('../lib/helper');
 
-// post request returning run IDn bu run id
+
+// post request returning run ID
 function runStart(req, res) {
     let data = {};
     db.task(t => {
         return t.one('SELECT * FROM users WHERE id = $1', [req.params.user_id])
             .then(users => {
-                if (!users.id) return;
-                return users;
+               if (!users.id) return;
+               return users;
             })
             .then(user => {
                 return t.one('INSERT INTO runs(duration, destination, user_id) VALUES ($1, $2, $3) returning id',
