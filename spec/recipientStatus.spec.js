@@ -10,7 +10,7 @@ require('../server');
 describe('GET /:run_id', () => {
     it('returns run info and coordinates by run_id', (done) => {
         request(ROOT)
-            .get('/1')
+            .get('/3')
             .end((error, response) => {
                 expect(response.status).to.equal(200);
                 done();

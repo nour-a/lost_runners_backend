@@ -18,14 +18,7 @@ describe('GET /', () => {
                 done();
             });
     });
-    it('handles incorrect roots', (done) => {
-        request(ROOT)
-            .get('/incorrectRoot')
-            .end((error, response) => {
-                expect(response.status).to.equal(404);
-                done();
-            });
-    });
+
 });
 
 describe('GET /runs/:id', () => {
