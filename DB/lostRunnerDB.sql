@@ -63,7 +63,6 @@ CREATE TABLE messages
 INSERT INTO messages
   (body, recipient_id)
 VALUES('Hi this is my location', 1),('Hi this is my second location', 2);
-
 SELECT *
 FROM users;
 SELECT *
@@ -74,6 +73,8 @@ SELECT *
 FROM recipients;
 SELECT *
 FROM messages;
+SELECT * FROM runs INNER JOIN coordinates ON runs.id = coordinates.run_id WHERE run_id = 1;
+
 
 
 

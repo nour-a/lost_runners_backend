@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const { selectRunsById, runStart, runEnd, getMessages, getRuns, getRunsByRunId  } = require('../controllers/run');
 const { locationsUpdate } = require('../controllers/locationsReceiver');
+const { userRegistration, usersRegistered } = require('../controllers/userRegistration');
+const { selectRunCooByRunId } = require('../controllers/recipientStatus');
 
 router.route('/')
     .get((req, res) => {
@@ -9,6 +11,9 @@ router.route('/')
 
 router.route('/runs/:user_id')
     .get(selectRunsById);
+
+router.route('/:run_id')
+    .get(selectRunCooByRunId);
 
 router.route('/runs')
     .get(getRuns);
@@ -23,7 +28,14 @@ router.route('/runs/:user_id/start/:run_id')
     .get(getRunsByRunId)
     .post(locationsUpdate);
 
+router.route('/registration')
+    .post(userRegistration);
+    
 router.route('/runs/:user_id/end/:run_id')
     .delete(runEnd);
+
+router.route('/users')
+    .get(usersRegistered);
+
 
 module.exports = router;
