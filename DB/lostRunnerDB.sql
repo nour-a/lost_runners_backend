@@ -31,10 +31,10 @@ CREATE TABLE coordinates
 (
   id SERIAL PRIMARY KEY,
   run_id INTEGER,
-  FOREIGN KEY (run_id) REFERENCES runs(id),
   coordinate_time TIMESTAMP DEFAULT NOW(),
   latitude FLOAT,
-  longitude FLOAT
+  longitude FLOAT,
+  FOREIGN KEY (run_id) REFERENCES runs (id) ON DELETE CASCADE
 );
 INSERT INTO coordinates
   (run_id,latitude,longitude)
@@ -45,24 +45,24 @@ VALUES
 CREATE TABLE recipients
 (
   id SERIAL PRIMARY KEY,
-  run_id INTEGER,
-  FOREIGN KEY (run_id) REFERENCES runs(id),
+  run_id INTEGER NOT NULL,
   phone_number bigint,
-  name VARCHAR(30)
+  name VARCHAR(30),
+  FOREIGN KEY (run_id) REFERENCES runs (id) ON DELETE CASCADE
 );
 INSERT INTO recipients
   (run_id,phone_number,name)
-VALUES( 1, 747445656879, 'sam');
+VALUES( 1, 747445656879, 'sam'),( 2, 747445600879, 'joudy');
 CREATE TABLE messages
 (
   id SERIAL PRIMARY KEY,
   body VARCHAR(255),
-  recipient_id INTEGER,
-  FOREIGN KEY (recipient_id) REFERENCES recipients(id)
+  recipient_id INTEGER NOT NULL,
+  FOREIGN KEY (recipient_id) REFERENCES recipients (id) ON DELETE CASCADE
 );
 INSERT INTO messages
   (body, recipient_id)
-VALUES('Hi this is my location', 1);
+VALUES('Hi this is my location', 1),('Hi this is my second location', 2);
 SELECT *
 FROM users;
 SELECT *
@@ -73,6 +73,8 @@ SELECT *
 FROM recipients;
 SELECT *
 FROM messages;
+SELECT * FROM runs INNER JOIN coordinates ON runs.id = coordinates.run_id WHERE run_id = 1;
+
 
 
 

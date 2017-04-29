@@ -23,17 +23,18 @@ app.listen (PORT, () => {
     console.log(`Listening on port: ${PORT}...`);
 });
 
-app.use((error, req, res, next) => {
-    if (error.code === 404) {
-        return res.status(404).send({error: error.message});
+app.use(function (err, req, res, next) {
+    if (err.code === 422) {
+        return res.status(422).json({error: err.message});
     }
-    if (error.code === 422) {
-        return res.status(422).send({error: error.message});
+    if (err.code === 404) {
+        return res.status(404).json({error: err.message});
     }
-    next(error);
+    next(err);
 });
 
-app.use((error, req, res, next) => {
-    res.status(500).send({error: error.message});
+app.use(function (err, req, res, next) {
+    res.status(500).json({error: err});
     next();
 });
+
