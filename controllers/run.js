@@ -93,6 +93,7 @@ function getMessages(req, res) {
             res.status(200).send(messages);
         });
 }
+
 function getRuns(req, res) {
     db.any('SELECT * FROM runs')
         .then(runs => {
