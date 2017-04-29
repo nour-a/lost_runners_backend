@@ -2,7 +2,8 @@ const bluebird = require('bluebird');
 const pgp = require('pg-promise')({ promiseLib: bluebird });
 const dbCredentials = require('../config').DB[process.env.NODE_ENV];
 const db = pgp(dbCredentials);
-const normaliseData = require('../lib/helper');
+const { normaliseData } = require('../lib/helper');
+
 
 
 // post request returning run ID
