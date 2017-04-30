@@ -11,7 +11,6 @@ app.use(bodyParser.json());
 
 const myLogger = function (req, res, next) {
   console.log('LOGGED');
-  console.log(req.body);
   next();
 };
 
@@ -23,18 +22,18 @@ app.listen (PORT, () => {
     console.log(`Listening on port: ${PORT}...`);
 });
 
-app.use(function (err, req, res, next) {
-    if (err.code === 422) {
-        return res.status(422).json({error: err.message});
+app.use(function (error, req, res, next) {
+    if (error.code === 422) {
+        return res.status(422).json({error: error.message});
     }
-    if (err.code === 404) {
-        return res.status(404).json({error: err.message});
+    if (error.code === 404) {
+        return res.status(404).json({error: error.message});
     }
-    next(err);
+    next(error);
 });
 
-app.use(function (err, req, res, next) {
-    res.status(500).json({error: err});
+app.use(function (error, req, res, next) {
+    res.status(500).json({error: error});
     next();
 });
 

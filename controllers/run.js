@@ -4,8 +4,6 @@ const dbCredentials = require('../config').DB[process.env.NODE_ENV];
 const db = pgp(dbCredentials);
 const { normaliseData } = require('../lib/helper');
 
-
-
 // post request returning run ID
 function runStart(req, res) {
     let data = {};
@@ -74,19 +72,19 @@ function getRunsByRunId(req, res,next) {
 // finish run for run_id
 
 function runEnd(req,res,next) {
-    
     db.result('DELETE FROM runs WHERE id = $1', [req.params.run_id], r => r.rowCount)
-    .then((data) => {
+    .then(() => {
         // data = number of rows that were deleted
-        if (data === 0) {
-             throw { code: 404, message:'not found'};
-            }
+        //  if (data === 0) {
+        //       throw { code: 404, message:'not found'};
+        //      }
         res.status(204).send();
     })
     .catch(error => {
         next(error);
     });
 }
+
 function getMessages(req, res) {
     db.any('SELECT * FROM messages')
         .then(messages => {

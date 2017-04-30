@@ -7,10 +7,11 @@ const PORT = config.PORT[process.env.NODE_ENV];
 const ROOT = `http://localhost:${PORT}/api`;
 
 require('../server');
+
 describe('GET /:run_id', () => {
     it('returns run info and coordinates by run_id', (done) => {
         request(ROOT)
-            .get('/3')
+            .get('/2')
             .end((error, response) => {
                 expect(response.status).to.equal(200);
                 done();

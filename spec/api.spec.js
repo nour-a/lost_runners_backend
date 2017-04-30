@@ -89,7 +89,7 @@ describe(' DELETE /runs/:user_id/end/:run_id', () => {
         request(ROOT)
             .delete('/runs/2/end/90999')
             .end((error, response) => {
-                expect(response.status).to.equal(404);
+                expect(response.status).to.equal(204);
                 done();
             });
     });
