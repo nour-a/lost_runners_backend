@@ -1,6 +1,6 @@
 module.exports = {
     DB: {
-        dev: {
+        dev: process.env.DATABASE_URL || {
             'host': 'localhost',
             'port': '5432',
             'database': 'lost_runner_api',
