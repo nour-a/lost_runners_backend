@@ -4,15 +4,15 @@ module.exports = {
             'host': 'localhost',
             'port': '5432',
             'database': 'lost_runner_api',
-            'user': 'lost_runner',
-            'password': 'lost_runner_user'
+            'user': 'nour',
+            'password': '12345'
         }, 
         test: {
             'host': 'localhost',
             'port': '5432',
             'database': 'lost_runner_api',
-            'user': 'lost_runner',
-            'password': 'lost_runner_user'
+            'user': 'nour',
+            'password': '12345'
         }
     },
     PORT: {

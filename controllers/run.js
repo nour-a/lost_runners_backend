@@ -1,24 +1,11 @@
-const bluebird = require('bluebird');
-const pgp = require('pg-promise')({ promiseLib: bluebird });
-const dbCredentials = require('../config').DB[process.env.NODE_ENV];
-const db = pgp(dbCredentials);
-const { normaliseData } = require('../lib/helper');
+const { db } = require('../db.config');
 
-
-
-// post request returning run ID
-function runStart(req, res) {
+// post request to start the run, it will return the run ID
+function runStart(req, res, next) {
     let data = {};
     db.task(t => {
-        return t.one('SELECT * FROM users WHERE id = $1', [req.params.user_id])
-            .then(users => {
-               if (!users.id) return;
-               return users;
-            })
-            .then(user => {
-                return t.one('INSERT INTO runs(duration, destination, user_id) VALUES ($1, $2, $3) returning id',
-                    [req.body.duration, req.body.destination, user.id]);
-            })
+        return t.one('INSERT INTO runs(duration, destination, user_id) VALUES ($1, $2, $3) returning id',
+            [req.body.duration, req.body.destination, req.params.user_id])
             .then(({ id: runId }) => {
                 data = runId;
                 return t.one('INSERT INTO recipients(run_id, phone_number, name) VALUES ($1, $2, $3) returning id',
@@ -35,78 +22,29 @@ function runStart(req, res) {
             });
         })
         .catch(error => {
-            if (error.message === 'No data returned from the query.') {
-                res.status(422).send({ status: 'No User Id found' });
-            }
-        });
-}
-
-// Run controller returning all run IDs
-function selectRunsById(req, res,next) {
-    db.query(`SELECT * FROM runs WHERE user_id = ${req.params.user_id}`)
-        .then(data => {
-            if (data.length === 0) {
-                throw {code:422,message:'not exists'};
-            }
-             res.status(200).send({
-                runs: normaliseData(data)
-            });
-        })
-        .catch(error => {
             next(error);
         });
 }
-// get the run bu run id
-function getRunsByRunId(req, res,next) {
-    db.query(`SELECT * FROM runs WHERE run_id = ${req.params.run_id}`)
-        .then(data => {
-            if (data.length === 0) {
-                throw {code:422,message:'not exists'};
-            }
-             res.status(200).send({
-                runs: normaliseData(data)
-            });
-        })
-        .catch(error => {
-            next(error);
-        });
-}
-// finish run for run_id
 
-function runEnd(req,res,next) {
-    
+// finish the run by using the run_id
+
+function runEnd(req, res, next) {
+
     db.result('DELETE FROM runs WHERE id = $1', [req.params.run_id], r => r.rowCount)
-    .then((data) => {
-        // data = number of rows that were deleted
-        if (data === 0) {
-             throw { code: 404, message:'not found'};
+        .then((data) => {
+            // data = number of rows that were deleted
+            if (data === 0) {
+                throw { code: 404, message: 'Not Found' };
             }
-        res.status(204).send();
-    })
-    .catch(error => {
-        next(error);
-    });
-}
-function getMessages(req, res) {
-    db.any('SELECT * FROM messages')
-        .then(messages => {
-            res.status(200).send(messages);
-        });
-}
-
-function getRuns(req, res) {
-    db.any('SELECT * FROM runs')
-        .then(runs => {
-            res.status(200).send(runs);
+            res.status(204).send();
+        })
+        .catch(error => {
+            next(error);
         });
 }
 
 
 module.exports = {
     runStart,
-    selectRunsById,
-    runEnd,
-    getMessages,
-    getRuns,
-    getRunsByRunId
+    runEnd
 };

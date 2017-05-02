@@ -21,21 +21,10 @@ describe('GET /', () => {
 
 });
 
-describe('GET /runs/:id', () => {
-    it('returns a status 200 OK', (done) => {
-        request(ROOT)
-            .get('/runs/1')
-            .end((error, response) => {
-                expect(response.status).to.equal(200);
-                done();
-            });
-    });
-});
-
-describe('POST /runs/:user_id/start', () => {
+describe('POST /users/:user_id/run', () => {
     it('adds a new run to the runs table and adds info to messages and recipients tables', (done) => {
         request(ROOT)
-            .post('/runs/1/start')
+            .post('/users/1/run')
             .type('json')
             .send({
                 'duration': '40',
@@ -53,7 +42,24 @@ describe('POST /runs/:user_id/start', () => {
     });
     it('handles user ids which do not exist', (done) => {
         request(ROOT)
-            .post('/runs/1000/start')
+            .post('/users/1000/run')
+            .type('json')
+            .send({
+                'duration': '40',
+                'destination': 'market street',
+                'phone_number': '1234456789',
+                'name': 'gigi',
+                'body': 'HI I AM GOING TO MY RUN on market st'
+            })
+            .end((error, response) => {
+                expect(response.status).to.equal(422);
+                expect(response.body).to.be.an('object');
+                done();
+            });
+    });
+    it('handles user ids which do not exist', (done) => {
+        request(ROOT)
+            .post('/users/nour/run')
             .type('json')
             .send({
                 'duration': '40',
@@ -70,10 +76,10 @@ describe('POST /runs/:user_id/start', () => {
     });
 });
 
-describe(' DELETE/runs/:user_id/end/:run_id', () => {
+describe(' DELETE/runs/:run_id', () => {
     it('delete the run and all the info related to this run from all the tables', (done) => {
         request(ROOT)
-            .delete('/runs/1/end/1')
+            .delete('/runs/2')
             .type('json')
             .end((error, response) => {
                 expect(response.status).to.equal(204);
@@ -84,12 +90,20 @@ describe(' DELETE/runs/:user_id/end/:run_id', () => {
 });
 
 
-describe(' DELETE /runs/:user_id/end/:run_id', () => {
-    it('delete /runs/2/end/90999 will return 404', (done) => {
+describe(' DELETE /runs/:run_id', () => {
+    it('delete /runs/90999 will return 404', (done) => {
         request(ROOT)
-            .delete('/runs/2/end/90999')
+            .delete('/runs/90999')
             .end((error, response) => {
                 expect(response.status).to.equal(404);
+                done();
+            });
+    });
+    it('delete /runs/909uy will return 404', (done) => {
+        request(ROOT)
+            .delete('/runs/909uy')
+            .end((error, response) => {
+                expect(response.status).to.equal(422);
                 done();
             });
     });
