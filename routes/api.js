@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { selectRunsById, runStart, runEnd, getMessages, getRuns, getRunsByRunId  } = require('../controllers/run');
+const { runStart, runEnd } = require('../controllers/run');
 const { locationsUpdate } = require('../controllers/locationsReceiver');
 const { userRegistration, usersRegistered } = require('../controllers/userRegistration');
 const { selectRunCooByRunId } = require('../controllers/recipientStatus');
@@ -8,34 +8,20 @@ router.route('/')
     .get((req, res) => {
         res.status(200).json({ status: 'OK' });
     });
-
-router.route('/runs/:user_id')
-    .get(selectRunsById);
-
-router.route('/:run_id')
+router.route('/users/:user_id/run')
+    .post(runStart);
+router.route('/runs/:run_id/coordinates')
+    .post(locationsUpdate);
+router.route('/runs/:run_id')
+    .delete(runEnd);
+router.route('/runs/:run_id')
     .get(selectRunCooByRunId);
 
-router.route('/runs')
-    .get(getRuns);
 
-router.route('/messages')
-    .get(getMessages);
-
-router.route('/runs/:user_id/start')
-    .post(runStart);
-
-router.route('/runs/:user_id/start/:run_id')
-    .get(getRunsByRunId)
-    .post(locationsUpdate);
-
-router.route('/registration')
-    .post(userRegistration);
-    
-router.route('/runs/:user_id/end/:run_id')
-    .delete(runEnd);
-
-router.route('/users')
-    .get(usersRegistered);
+ router.route('/registration')
+ .post(userRegistration);
+ router.route('/users')
+ .get(usersRegistered);
 
 
 module.exports = router;
