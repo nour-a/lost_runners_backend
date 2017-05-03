@@ -17,16 +17,18 @@ CREATE TABLE runs
   id SERIAL PRIMARY KEY,
   start_time TIMESTAMP DEFAULT NOW(),
   duration bigint NOT NULL,
-  destination VARCHAR(50),
+  destination_latitude FLOAT,
+  destination_longitude FLOAT,
+  txt VARCHAR(255),
   user_id INTEGER,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 INSERT INTO runs
-  (duration,destination,user_id)
+  (duration,destination_latitude,destination_longitude,txt,user_id)
 VALUES
-  (1493049644, 'lloyd street', 1),
-  (1493049644, 'first street', 2),
-  (1493049644, 'oldham street', 3);
+  (1493049644, 10.111111, 20.22222, 'Hi this is my first location', 1),
+  (1493049644, 30.111111, 40.22222, 'Hi this is my second location', 2),
+  (1493049644, 50.111111, 60.22222, 'Hi this is my third location', 3);
 CREATE TABLE coordinates
 (
   id SERIAL PRIMARY KEY,
@@ -45,21 +47,28 @@ VALUES
 CREATE TABLE recipients
 (
   id SERIAL PRIMARY KEY,
-  run_id INTEGER NOT NULL,
   phone_number bigint,
-  name VARCHAR(30),
-  FOREIGN KEY (run_id) REFERENCES runs (id) ON DELETE CASCADE
+  name VARCHAR(30)
 );
 INSERT INTO recipients
-  (run_id,phone_number,name)
-VALUES( 1, 747445656879, 'sam'),( 2, 747445600879, 'joudy');
-CREATE TABLE messages
+  (phone_number,name)
+VALUES( 747445656879, 'sam'),(747445600879, 'joudy'),(123456789, 'joe'),(987654321,'katy');
+
+CREATE TABLE runs_recipients
 (
   id SERIAL PRIMARY KEY,
-  body VARCHAR(255),
+  run_id INTEGER NOT NULL,
   recipient_id INTEGER NOT NULL,
+  FOREIGN KEY (run_id) REFERENCES runs (id) ON DELETE CASCADE,
   FOREIGN KEY (recipient_id) REFERENCES recipients (id) ON DELETE CASCADE
 );
-INSERT INTO messages
-  (body, recipient_id)
-VALUES('Hi this is my location', 1),('Hi this is my second location', 2);
+INSERT INTO runs_recipients
+  (run_id, recipient_id)
+VALUES(1, 1),(2, 2),(3,3),(1,4);
+SELECT recipient_id FROM runs_recipients WHERE run_id=1;
+--DELETE FROM recipients WHERE id IN (SELECT recipient_id FROM runs_recipients WHERE run_id=1);
+--DELETE FROM runs WHERE id=1;
+SELECT * FROM runs;
+SELECT * FROM coordinates;
+SELECT * FROM recipients;
+SELECT * FROM runs_recipients;

@@ -3,17 +3,29 @@ const { db } = require('../db.config');
 // post request to start the run, it will return the run ID
 function runStart(req, res, next) {
     let data = {};
-    db.task(t => {
-        return t.one('INSERT INTO runs(duration, destination, user_id) VALUES ($1, $2, $3) returning id',
-            [req.body.duration, req.body.destination, req.params.user_id])
+    db.tx(t => {
+        return t.one('INSERT INTO runs(duration, destination_latitude, destination_longitude, txt, user_id) VALUES ($1, $2, $3, $4, $5) returning id',
+            [req.body.duration, req.body.destination.latitude, req.body.destination.longuitude, req.body.message, req.params.user_id])
+
             .then(({ id: runId }) => {
                 data = runId;
-                return t.one('INSERT INTO recipients(run_id, phone_number, name) VALUES ($1, $2, $3) returning id',
-                    [runId, req.body.phone_number, req.body.name]);
+                const queries = req.body.contacts.map((contact) => {
+                    return t.one('INSERT INTO recipients(phone_number) VALUES ($1) returning id', [contact]);
+                });
+                return t.batch(queries);
             })
-            .then(({ id: recipientId }) => {
-                return t.none('INSERT INTO messages(body, recipient_id) VALUES ($1, $2)',
-                    [req.body.body, recipientId]);
+            .then((rows) => {
+                const newQueries = rows.map((input) => {
+                    return t.none('INSERT INTO runs_recipients(run_id, recipient_id) VALUES ($1, $2)',
+                    [data, input.id]);
+
+                });
+                return t.batch(newQueries);
+            })
+
+            .then((newRows) => {
+                return t.none('INSERT INTO coordinates(run_id, latitude, longitude) VALUES ($1, $2, $3)',
+                    [newRows.run_id, req.body.startLocation.latitude, req.body.startLocation.longitude]);
             });
     })
         .then(() => {
@@ -22,6 +34,7 @@ function runStart(req, res, next) {
             });
         })
         .catch(error => {
+            console.log(error);
             next(error);
         });
 }
