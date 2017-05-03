@@ -62,6 +62,7 @@ CREATE TABLE runs_recipients
   FOREIGN KEY (run_id) REFERENCES runs (id) ON DELETE CASCADE,
   FOREIGN KEY (recipient_id) REFERENCES recipients (id) ON DELETE CASCADE
 );
+
 INSERT INTO runs_recipients
   (run_id, recipient_id)
 VALUES(1, 1),(2, 2),(3,3),(1,4);
