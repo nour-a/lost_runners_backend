@@ -1,5 +1,3 @@
-DROP DATABASE IF EXISTS lost_runner_api;
-CREATE DATABASE lost_runner_api;
 \c lost_runner_api;
 CREATE TABLE users
 (
