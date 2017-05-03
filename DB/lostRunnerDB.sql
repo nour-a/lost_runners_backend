@@ -48,12 +48,12 @@ VALUES
 CREATE TABLE recipients
 (
   id SERIAL PRIMARY KEY,
-  phone_number bigint,
+  phone_number VARCHAR(13),
   name VARCHAR(30)
 );
 INSERT INTO recipients
   (phone_number,name)
-VALUES( 747445656879, 'sam'),(747445600879, 'joudy'),(123456789, 'joe'),(987654321,'katy');
+VALUES( '+447402004093', 'nour'),('+447475120899', 'firas'),('+7402004099', 'joe');
 
 CREATE TABLE runs_recipients
 (
@@ -65,7 +65,7 @@ CREATE TABLE runs_recipients
 );
 INSERT INTO runs_recipients
   (run_id, recipient_id)
-VALUES(1, 1),(2, 2),(3,3),(1,4);
+VALUES(1, 1),(2, 2),(3,3);
 SELECT recipient_id FROM runs_recipients WHERE run_id=1;
 --DELETE FROM recipients WHERE id IN (SELECT recipient_id FROM runs_recipients WHERE run_id=1);
 --DELETE FROM runs WHERE id=1;
