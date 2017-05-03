@@ -18,6 +18,8 @@ router.route('/runs/:run_id')
     .get(selectRunCooByRunId);
 
 
+ router.route('/runs/:run_id/late')
+    .get(selectRunCooByRunId);
  router.route('/registration')
  .post(userRegistration);
  router.route('/users')

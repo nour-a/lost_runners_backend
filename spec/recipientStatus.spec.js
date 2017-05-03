@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'test';
+/*process.env.NODE_ENV = 'test';
 
 const expect = require('chai').expect;
 const request = require('supertest');
@@ -36,4 +36,12 @@ describe('GET runs/:run_id', () => {
                 done();
             });
     });
-});
+    it('returns a status 422 ', (done) => {
+        request(ROOT)
+            .get('/runs/100rt')
+            .end((error, response) => {
+                expect(response.status).to.equal(422);
+                done();
+            });
+    });
+});*/

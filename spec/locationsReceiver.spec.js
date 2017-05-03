@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'test';
+/*process.env.NODE_ENV = 'test';
 
 const expect = require('chai').expect;
 const request = require('supertest');
@@ -47,4 +47,4 @@ describe('POST /runs/:run_id/coordinates', () => {
                 done();
             });
     });
-});
+});*/
