@@ -18,5 +18,13 @@ module.exports = {
     PORT: {
         dev: process.env.PORT || 3000,
         test: 3030
+    },
+    TWILIO: {
+        dev:{
+            accountSid: process.env.TWILIO_ID,
+            authToken: process.env.TWILIO_TOKEN,
+            fromNumber: process.env.TWILIO_PHONE
+        }
+
     }
 };

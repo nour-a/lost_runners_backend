@@ -27,11 +27,17 @@ describe('POST /users/:user_id/run', () => {
             .post('/users/1/run')
             .type('json')
             .send({
-                'duration': '40',
-                'destination': 'market street',
-                'phone_number': '1234456789',
-                'name': 'gigi',
-                'body': 'HI I AM GOING TO MY RUN on market st'
+                'startLocation': {
+                    'latitude': 67.9,
+                    'longuitude': 56.2
+                },
+                'destination': {
+                    'latitude': 89.7,
+                    'longuitude': 60.4
+                },
+                'duration': 5676,
+                'contacts': ['+447402004093', '+447475120899'],
+                'message': 'hi this is my location'
             })
             .end((error, response) => {
                 expect(response.status).to.equal(201);
@@ -40,16 +46,22 @@ describe('POST /users/:user_id/run', () => {
                 done();
             });
     });
-    it('handles user ids which do not exist', (done) => {
+     it('handles user ids which do not exist', (done) => {
         request(ROOT)
             .post('/users/1000/run')
             .type('json')
             .send({
-                'duration': '40',
-                'destination': 'market street',
-                'phone_number': '1234456789',
-                'name': 'gigi',
-                'body': 'HI I AM GOING TO MY RUN on market st'
+                'startLocation': {
+                    'latitude': 67.9,
+                    'longuitude': 56.2
+                },
+                'destination': {
+                    'latitude': 89.7,
+                    'longuitude': 60.4
+                },
+                'duration': 5676,
+                'contacts': ['+447402004093', '+447475120899'],
+                'message': 'hi this is my location'
             })
             .end((error, response) => {
                 expect(response.status).to.equal(422);
@@ -57,16 +69,22 @@ describe('POST /users/:user_id/run', () => {
                 done();
             });
     });
-    it('handles user ids which do not exist', (done) => {
+     it('handles user ids which do not exist', (done) => {
         request(ROOT)
             .post('/users/nour/run')
             .type('json')
             .send({
-                'duration': '40',
-                'destination': 'market street',
-                'phone_number': '1234456789',
-                'name': 'gigi',
-                'body': 'HI I AM GOING TO MY RUN on market st'
+                'startLocation': {
+                    'latitude': 67.9,
+                    'longuitude': 56.2
+                },
+                'destination': {
+                    'latitude': 89.7,
+                    'longuitude': 60.4
+                },
+                'duration': 5676,
+                'contacts': ['+447402004093', '+447475120899'],
+                'message': 'hi this is my location'
             })
             .end((error, response) => {
                 expect(response.status).to.equal(422);
@@ -76,7 +94,7 @@ describe('POST /users/:user_id/run', () => {
     });
 });
 
-describe(' DELETE/runs/:run_id', () => {
+/* describe(' DELETE/runs/:run_id', () => {
     it('delete the run and all the info related to this run from all the tables', (done) => {
         request(ROOT)
             .delete('/runs/2')
@@ -107,4 +125,5 @@ describe(' DELETE /runs/:run_id', () => {
                 done();
             });
     });
-});
+});*/
+

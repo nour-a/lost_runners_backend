@@ -7,7 +7,6 @@ function locationsUpdate (req, res,next) {
                 res.status(201).send({});
             })
             .catch(error => {
-                console.log(error.code);
                 next(error);
             });
 }
