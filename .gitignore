@@ -11,5 +11,5 @@ node_modules
 **/.idea/*
 **/bundle.js
 **/bundle.js.map
-/DB/lostRunnerDB.sql
+DB/lostRunnerDB.sql
 
