@@ -20,6 +20,7 @@ CREATE TABLE runs
   destination_latitude FLOAT,
   destination_longitude FLOAT,
   txt VARCHAR(255),
+  sent BOOLEAN DEFAULT FALSE,
   user_id INTEGER,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
