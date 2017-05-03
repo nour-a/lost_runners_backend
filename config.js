@@ -1,6 +1,6 @@
 module.exports = {
     DB: {
-        dev: {
+        dev: process.env.DATABASE_URL || {
             'host': 'localhost',
             'port': '5432',
             'database': 'lost_runner_api',
@@ -16,7 +16,7 @@ module.exports = {
         }
     },
     PORT: {
-        dev: 3000,
+        dev: process.env.PORT || 3000,
         test: 3030
     },
     TWILIO: {

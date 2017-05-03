@@ -7,7 +7,7 @@
   "author": "curtis johnson <curtisianjohnson@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "test": "mocha ./spec",
     "posttest": "npm run lint",
     "lint": "eslint ./",
