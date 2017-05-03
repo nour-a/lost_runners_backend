@@ -6,7 +6,6 @@ function runStart(req, res, next) {
     db.tx(t => {
         return t.one('INSERT INTO runs(duration, destination_latitude, destination_longitude, txt, user_id) VALUES ($1, $2, $3, $4, $5) returning id',
             [req.body.duration, req.body.destination.latitude, req.body.destination.longuitude, req.body.message, req.params.user_id])
-
             .then(({ id: runId }) => {
                 data = runId;
                 const queries = req.body.contacts.map((contact) => {
