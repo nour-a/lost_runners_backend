@@ -20,6 +20,7 @@ CREATE TABLE runs
   destination_latitude FLOAT,
   destination_longitude FLOAT,
   txt VARCHAR(255),
+  sent BOOLEAN DEFAULT FALSE,
   user_id INTEGER,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -62,7 +63,6 @@ CREATE TABLE runs_recipients
   FOREIGN KEY (run_id) REFERENCES runs (id) ON DELETE CASCADE,
   FOREIGN KEY (recipient_id) REFERENCES recipients (id) ON DELETE CASCADE
 );
-
 INSERT INTO runs_recipients
   (run_id, recipient_id)
 VALUES(1, 1),(2, 2),(3,3),(1,4);
