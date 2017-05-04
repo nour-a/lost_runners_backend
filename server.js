@@ -6,7 +6,9 @@ const bodyParser = require('body-parser');
 const config = require('./config');
 const PORT = config.PORT[process.env.NODE_ENV];
 const apiRoutes = require('./routes/api');
+const cors = require('cors');
 
+app.use(cors());
 app.use(bodyParser.json());
 
 const myLogger = function (req, res, next) {
