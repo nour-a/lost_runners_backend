@@ -6,13 +6,15 @@ const bodyParser = require('body-parser');
 const config = require('./config');
 const PORT = config.PORT[process.env.NODE_ENV];
 const apiRoutes = require('./routes/api');
+const { startMonitoring } = require('./lib/checkLate')
 
 app.use(bodyParser.json());
 
 const myLogger = function (req, res, next) {
-    // console.log('LOGGED');
     next();
 };
+//startMonitoring();
+
 
 app.use(myLogger);
 
