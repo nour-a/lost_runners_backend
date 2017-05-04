@@ -40,15 +40,17 @@ function runStart(req, res, next) {
 
 function runEnd(req, res, next) {
 
-    db.result('DELETE FROM runs WHERE id = $1', [req.params.run_id], r => r.rowCount)
-        .then((data) => {
-            // data = number of rows that were deleted
-            if (data === 0) {
-                throw { code: 404, message: 'Not Found' };
-            }
-            res.status(204).send();
+    db.tx(t => {
+       return t.any(`DELETE FROM recipients WHERE id IN (SELECT recipient_id FROM runs_recipients WHERE run_id=${req.params.run_id})`)
+            .then(() => {
+                return t.any('DELETE FROM runs WHERE id = $1', [req.params.run_id]);
+            });
+    })
+        .then(() => {
+            res.status(204).send({ok:'ok'});
         })
         .catch(error => {
+            console.log(error);
             next(error);
         });
 }
