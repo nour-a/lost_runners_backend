@@ -8,7 +8,7 @@ const ROOT = `http://localhost:${PORT}/api`;
 
 require('../server');
 
-describe('GET /:run_id', () => {
+xdescribe('GET /:run_id', () => {
     it('returns run info and coordinates by run_id', (done) => {
         request(ROOT)
             .get('/2')
@@ -19,7 +19,7 @@ describe('GET /:run_id', () => {
     });
 });
 
-describe('GET /:run_id', () => {
+xdescribe('GET /:run_id', () => {
     it('returns a status 422 ', (done) => {
         request(ROOT)
             .get('/100')

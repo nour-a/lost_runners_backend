@@ -8,7 +8,7 @@ const ROOT = `http://localhost:${PORT}/api`;
 
 require('../server');
 
-describe('GET /', () => {
+xdescribe('GET /', () => {
     it('returns the status ok', (done) => {
         request(ROOT)
             .get('/')
@@ -21,7 +21,7 @@ describe('GET /', () => {
 
 });
 
-describe('GET /runs/:id', () => {
+xdescribe('GET /runs/:id', () => {
     it('returns a status 200 OK', (done) => {
         request(ROOT)
             .get('/runs/1')
@@ -32,7 +32,7 @@ describe('GET /runs/:id', () => {
     });
 });
 
-describe('POST /runs/:user_id/start', () => {
+xdescribe('POST /runs/:user_id/start', () => {
     it('adds a new run to the runs table and adds info to messages and recipients tables', (done) => {
         request(ROOT)
             .post('/runs/1/start')
@@ -70,7 +70,7 @@ describe('POST /runs/:user_id/start', () => {
     });
 });
 
-describe(' DELETE/runs/:user_id/end/:run_id', () => {
+xdescribe(' DELETE/runs/:user_id/end/:run_id', () => {
     it('delete the run and all the info related to this run from all the tables', (done) => {
         request(ROOT)
             .delete('/runs/1/end/1')
@@ -84,7 +84,7 @@ describe(' DELETE/runs/:user_id/end/:run_id', () => {
 });
 
 
-describe(' DELETE /runs/:user_id/end/:run_id', () => {
+xdescribe(' DELETE /runs/:user_id/end/:run_id', () => {
     it('delete /runs/2/end/90999 will return 404', (done) => {
         request(ROOT)
             .delete('/runs/2/end/90999')

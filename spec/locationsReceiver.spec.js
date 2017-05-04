@@ -8,7 +8,7 @@ const ROOT = `http://localhost:${PORT}/api`;
 
 require('../server');
 
-describe('POST /runs/:user_id/start/:run_id', () => {
+xdescribe('POST /runs/:user_id/start/:run_id', () => {
     it('handles updated locations with a status 201', (done) => {
         request(ROOT)
             .post('/runs/1/start/3')

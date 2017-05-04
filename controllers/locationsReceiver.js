@@ -1,7 +1,8 @@
-const bluebird = require('bluebird');
-const pgp = require('pg-promise')({ promiseLib: bluebird });
-const dbCredentials = require('../config').DB[process.env.NODE_ENV];
-const db = pgp(dbCredentials);
+// const bluebird = require('bluebird');
+// const pgp = require('pg-promise')({ promiseLib: bluebird });
+// const dbCredentials = require('../config').DB[process.env.NODE_ENV];
+// const db = pgp(dbCredentials);
+var db = require('../db.config');
 
 function locationsUpdate (req, res) {
     db.task(t => {

@@ -8,7 +8,7 @@ const ROOT = `http://localhost:${PORT}/api`;
 
 require('../server');
 
-describe('GET /users', () => {
+xdescribe('GET /users', () => {
     it('returns all users', () => {
         request(ROOT)
             .get('/users')
@@ -18,7 +18,7 @@ describe('GET /users', () => {
     });
 });
 
-describe('GET /registration', () => {
+xdescribe('GET /registration', () => {
     it('inserts a new user to the database', () => {
 
     });

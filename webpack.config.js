@@ -13,7 +13,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         include: path.resolve(__dirname, 'src'),
-        loader: 'babel-loader',
+        loaders: 'babel-loader',
         options: {
           presets: ['react', 'es2015']
         }
@@ -24,13 +24,14 @@ module.exports = {
       },
       {
         test: /.(png|jpg|jpeg|gif|svg|woff|woff2|eot|ttf)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader'
+        loaders: 'url-loader'
       }
     ]
   },
   devServer: {
+    historyApiFallback: true,
     contentBase: path.join(__dirname, 'public'),
     publicPath: '/js/',
-    port: 9090
+    port: 3030
   }
 };

@@ -1,39 +1,53 @@
 if (!process.env.NODE_ENV) process.env.NODE_ENV = 'dev';
 
+// server 
+const path = require('path');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const config = require('./config');
-const PORT = config.PORT[process.env.NODE_ENV];
+
+const cors = require('cors');
 const apiRoutes = require('./routes/api');
 
+// server 
 app.use(bodyParser.json());
 
-const myLogger = function (req, res, next) {
-  console.log('LOGGED');
-  next();
-};
+app.use(cors());
 
-app.use(myLogger);
+// const myLogger = function (req, res, next) {
+//   console.log('LOGGED');
+//   next();
+// };
+
+// app.use(myLogger);
 
 app.use('/api', apiRoutes);
 
-app.listen (PORT, () => {
-    console.log(`Listening on port: ${PORT}...`);
+app.use(express.static(path.join(__dirname, 'public')));
+
+// app.use(function (error, req, res, next) {
+//     if (error.code === 422) {
+//         return res.status(422).json({error: error.message});
+//     }
+//     if (error.code === 404) {
+//         return res.status(404).json({error: error.message});
+//     }
+//     next(error);
+// });
+
+// app.use(function (error, req, res, next) {
+//     res.status(500).json({error: error});
+//     next();
+// });
+
+// server side render
+
+// app.get('/api', (req, res) => {
+//     res.send('OK');
+// });
+
+app.get('/*', (req, res) => {
+    res.status(404).send({reason: 'not found'});
 });
 
-app.use(function (error, req, res, next) {
-    if (error.code === 422) {
-        return res.status(422).json({error: error.message});
-    }
-    if (error.code === 404) {
-        return res.status(404).json({error: error.message});
-    }
-    next(error);
-});
-
-app.use(function (error, req, res, next) {
-    res.status(500).json({error: error});
-    next();
-});
-
+module.exports = app;
