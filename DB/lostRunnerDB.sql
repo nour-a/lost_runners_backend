@@ -21,8 +21,6 @@ CREATE TABLE runs
   destination_longitude FLOAT,
   txt VARCHAR(255),
   sent BOOLEAN DEFAULT FALSE
-  --user_id INTEGER,
-  --FOREIGN KEY (user_id) REFERENCES users(id)
 );
 INSERT INTO runs
   (duration,destination_latitude,destination_longitude,txt)
@@ -67,8 +65,6 @@ INSERT INTO runs_recipients
   (run_id, recipient_id)
 VALUES(1, 1),(2, 2),(3,3);
 SELECT recipient_id FROM runs_recipients WHERE run_id=1;
---DELETE FROM recipients WHERE id IN (SELECT recipient_id FROM runs_recipients WHERE run_id=1);
---DELETE FROM runs WHERE id=1;
 SELECT * FROM runs;
 SELECT * FROM coordinates;
 SELECT * FROM recipients;
