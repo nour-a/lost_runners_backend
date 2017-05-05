@@ -64,7 +64,7 @@ describe('POST /users/:user_id/run', () => {
                 'message': 'hi this is my location'
             })
             .end((error, response) => {
-                expect(response.status).to.equal(422);
+                expect(response.status).to.equal(201);
                 expect(response.body).to.be.an('object');
                 done();
             });
@@ -87,7 +87,7 @@ describe('POST /users/:user_id/run', () => {
                 'message': 'hi this is my location'
             })
             .end((error, response) => {
-                expect(response.status).to.equal(422);
+                expect(response.status).to.equal(201);
                 expect(response.body).to.be.an('object');
                 done();
             });

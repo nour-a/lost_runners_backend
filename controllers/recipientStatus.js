@@ -15,7 +15,7 @@ function selectRunCooByRunId(req,res,next) {
                     lat: location.latitude, 
                     lng: location.longitude,
                     time: location.time
-                }
+                };
             });
             const {id, start_time, duration, destination_latitude, destination_longitude} = data[0];
              res.status(200).send({
@@ -32,6 +32,7 @@ function selectRunCooByRunId(req,res,next) {
             });
         })
         .catch(error => {
+            console.log(error);
             next(error);
         });
 

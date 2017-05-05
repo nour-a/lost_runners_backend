@@ -4,8 +4,8 @@ const { db } = require('../db.config');
 function runStart(req, res, next) {
     let data = {};
     db.tx(t => {
-        return t.one('INSERT INTO runs(duration, destination_latitude, destination_longitude, txt, user_id) VALUES ($1, $2, $3, $4, $5) returning id',
-            [req.body.duration, req.body.destination.latitude, req.body.destination.longuitude, req.body.message, req.params.user_id])
+        return t.one('INSERT INTO runs(duration, destination_latitude, destination_longitude, txt) VALUES ($1, $2, $3, $4) returning id',
+            [req.body.duration, req.body.destination.latitude, req.body.destination.longitude, req.body.message])
             .then(({ id: runId }) => {
                 data = runId;
                 const queries = req.body.contacts.map((contact) => {
@@ -15,16 +15,15 @@ function runStart(req, res, next) {
             })
             .then((rows) => {
                 const newQueries = rows.map((input) => {
-                    return t.none('INSERT INTO runs_recipients(run_id, recipient_id) VALUES ($1, $2)',
-                    [data, input.id]);
+                    return t.one('INSERT INTO runs_recipients(run_id, recipient_id) VALUES ($1, $2) returning id',
+                        [data, input.id]);
 
                 });
                 return t.batch(newQueries);
             })
-
-            .then((newRows) => {
-                return t.none('INSERT INTO coordinates(run_id, latitude, longitude) VALUES ($1, $2, $3)',
-                    [newRows.run_id, req.body.startLocation.latitude, req.body.startLocation.longitude]);
+            .then(() => {
+                return t.any('INSERT INTO coordinates(run_id, latitude, longitude) VALUES ($1, $2, $3) returning id',
+                    [data, req.body.startLocation.latitude, req.body.startLocation.longitude]);
             });
     })
         .then(() => {
@@ -41,19 +40,20 @@ function runStart(req, res, next) {
 
 function runEnd(req, res, next) {
 
-    db.result('DELETE FROM runs WHERE id = $1', [req.params.run_id], r => r.rowCount)
-        .then((data) => {
-            // data = number of rows that were deleted
-            if (data === 0) {
-                throw { code: 404, message: 'Not Found' };
-            }
-            res.status(204).send();
+    db.tx(t => {
+       return t.any(`DELETE FROM recipients WHERE id IN (SELECT recipient_id FROM runs_recipients WHERE run_id=${req.params.run_id})`)
+            .then(() => {
+                return t.any('DELETE FROM runs WHERE id = $1', [req.params.run_id]);
+            });
+    })
+        .then(() => {
+            res.status(204).send({ok:'ok'});
         })
         .catch(error => {
+            console.log(error);
             next(error);
         });
 }
-
 
 module.exports = {
     runStart,
