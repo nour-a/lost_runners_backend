@@ -110,7 +110,7 @@ The controller functions are split into the the following files with the followi
 &nbsp;&nbsp;&nbsp; **selectRunCooByRunId** *GET request to have all the info about run by its id*
 
 
-###startMonitoring
+### startMonitoring
 
 This functios is helper one used to get all the late runner to send txt message with the location to recipient/s
 
