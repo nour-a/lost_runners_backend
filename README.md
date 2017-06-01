@@ -111,8 +111,9 @@ The controller functions are split into the the following files with the followi
 
 
 ###startMonitoring
-This functios is used to get all the late runner to send txt message with the location to recipient/s 
+This functios is helper one used to get all the late runner to send txt message with the location to recipient/s
 
+&nbsp;&nbsp;&nbsp; **CronJob** *to schedule the execution for monitoring to run it every one minute*
 &nbsp;&nbsp;&nbsp; **fetchLateRunners** *returns all the late using sql query*
 &nbsp;&nbsp;&nbsp; **getRecipientInfo** *returns all the info about the Recipient/s related to the  by sql query*
 &nbsp;&nbsp;&nbsp; **sendRecipientMessage** *to Send an SMS using the Programmable SMS API provided by twilio*
