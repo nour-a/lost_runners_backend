@@ -1,6 +1,8 @@
 ## Lost Runners back end
 In this project there is the API which built by using [PostgreSQL](https://www.postgresql.org/) and [pg-promise](https://www.npmjs.com/package/pg-promise) with the [Bluebird promise library](http://bluebirdjs.com/docs/getting-started.html) to get the infomation about the run that the user in .
-It is hosted on heroku (https://lost-backend.herokuapp.com) [lost-runner-backend]
+<br />
+It is hosted on heroku (https://lost-backend.herokuapp.com) [lost-runner-backend].
+<br />
 The main aim for this project is to make the runner safe , in case this runner is missing an atomatic text message will be sent with the last location provided by the the route from the beginning. 
 When the user start, the run will be able to choose the distiation, duration and recipient/s, when the runner choose to finish the run all the info about this run will be deleted, in case the time past the duration which the user set without ending the run, that means this person is not safe and the message will be sent directly.
 
